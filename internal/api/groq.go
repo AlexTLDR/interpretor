@@ -14,22 +14,46 @@ type GroqClient struct {
 	APIKey string
 }
 
+type TranslationStyle string
+
+const (
+	StyleFormal    TranslationStyle = "formal"
+	StyleFriendly  TranslationStyle = "friendly"
+	StyleBusiness  TranslationStyle = "business"
+	StyleTechnical TranslationStyle = "technical"
+)
+
+type Language struct {
+	Code string
+	Name string
+}
+
+var SupportedLanguages = []Language{
+	{"en", "English"},
+	{"de", "German"},
+	{"ro", "Romanian"},
+	{"es", "Spanish"},
+	{"it", "Italian"},
+	{"fr", "French"},
+	{"pt", "Portuguese"},
+}
+
 func NewGroqClient(apiKey string) *GroqClient {
 	return &GroqClient{
 		APIKey: apiKey,
 	}
 }
 
-func (c *GroqClient) Translate(text string) (string, error) {
+func (c *GroqClient) Translate(text, fromLang, toLang string, style TranslationStyle) (string, error) {
 	request := models.ChatRequest{
 		Messages: []models.Message{
 			{
 				Role:    "system",
-				Content: "You are a direct translator. Provide only the translated words without any explanation or additional context.",
+				Content: "Translate exactly what is provided. Return only the translated text without explanations, corrections, or notes.",
 			},
 			{
 				Role:    "user",
-				Content: text,
+				Content: fmt.Sprintf("Translate this text from %s to %s in %s style: %s", fromLang, toLang, style, text),
 			},
 		},
 		Model: "mixtral-8x7b-32768",
