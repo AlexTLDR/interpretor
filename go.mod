@@ -1,4 +1,4 @@
-module interpretor
+module github.com/AlexTLDR/interpretor
 
 go 1.24.0
 
