@@ -6,3 +6,5 @@ services:
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
     restart: unless-stopped
+
+#testing for deployment
