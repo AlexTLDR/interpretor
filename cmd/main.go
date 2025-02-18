@@ -22,6 +22,8 @@ func main() {
 
 	tmpl := template.Must(template.ParseFiles("web/templates/index.html"))
 
+	http.Handle("/web/static/", http.StripPrefix("/web/static/", http.FileServer(http.Dir("web/static"))))
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
 			Languages []api.Language
