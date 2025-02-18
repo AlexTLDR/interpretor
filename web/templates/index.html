@@ -2,103 +2,101 @@
 <html>
 <head>
     <title>Interpretor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             background: linear-gradient(300deg, #2E5077, #4DA1A9, #79D7BE);
             background-size: 180% 180%;
             animation: gradient-animation 18s ease infinite;
-            margin: 0;
             color: #F6F4F0;
         }
     
         @keyframes gradient-animation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-    
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            background: #F6F4F0;
-            border-radius: 5px;
-            padding: 10px;
-        }
-        select {
-            padding: 5px;
-            margin: 5px;
-            background: #F6F4F0;
-            border-radius: 3px;
-        }
-        button {
-            padding: 10px 20px;
-            background: #007a87;
-            color: #F6F4F0;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #004d56;
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
-    
 </head>
 
-<body>
-    <div class="container">
-        <h1>Interpretor</h1>
-        <form action="/translate" method="POST">
-            <div class="form-group">
-                <select name="fromLang" id="fromLanguage" required>
-                    <option value="">Select source language</option>
-                    {{range .Languages}}
-                    <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
-                    {{end}}
-                </select>
-                <span>to</span>
-                <select name="toLang" id="toLanguage" required>
-                    <option value="">Select target language</option>
-                    {{range .Languages}}
-                    <option value="{{.Code}}" {{if eq .Code "en"}}selected{{end}}>{{.Name}}</option>
-                    {{end}}
-                </select>
-                
-                <div class="form-group">
-                    <select name="style" id="style" required>
-                        <option value="">Select translation style</option>
-                        <option value="formal">Formal</option>
-                        <option value="friendly" selected>Friendly</option>
-                        <option value="business">Business</option>
-                        <option value="technical">Technical</option>
+<body class="min-h-screen">
+    <!-- Desktop Content -->
+    <div class="hidden md:block">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-4xl font-bold text-center mb-8">Interpretor</h1>
+            
+            <form action="/translate" method="POST" class="max-w-2xl mx-auto space-y-6">
+                <div class="flex gap-4">
+                    <select name="fromLang" id="fromLanguage" required class="bg-white text-gray-800 p-2 rounded">
+                        <option value="">Select source language</option>
+                        {{range .Languages}}
+                        <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
+                    </select>
+                    
+                    <span class="self-center">to</span>
+                    
+                    <select name="toLang" id="toLanguage" required class="bg-white text-gray-800 p-2 rounded">
+                        <option value="">Select target language</option>
+                        {{range .Languages}}
+                        <option value="{{.Code}}" {{if eq .Code "en"}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
                     </select>
                 </div>
 
-            <div class="form-group">
-                <textarea name="text" id="inputText" placeholder="Enter text to translate..." required></textarea>
-            </div>
+                <select name="style" id="style" required class="w-full bg-white text-gray-800 p-2 rounded">
+                    <option value="">Select translation style</option>
+                    <option value="formal">Formal</option>
+                    <option value="friendly" selected>Friendly</option>
+                    <option value="business">Business</option>
+                    <option value="technical">Technical</option>
+                </select>
 
-            <button type="submit">Translate</button>
+                <textarea 
+                    name="text" 
+                    id="inputText" 
+                    placeholder="Enter text to translate..." 
+                    required 
+                    class="w-full min-h-[200px] bg-white text-gray-800 p-4 rounded"
+                ></textarea>
 
-            <div class="form-group">
-                <h3>Translation:</h3>
-                <div id="outputText"></div>
+                <button 
+                    type="submit" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition duration-200"
+                >
+                    Translate
+                </button>
+
+                <div class="mt-6 mb-20">
+                    <h3 class="text-xl font-bold mb-2">Translation:</h3>
+                    <div id="outputText" class="bg-white text-gray-800 p-4 rounded min-h-[100px]"></div>
+                </div>
+            </form>
+        </div>
+
+        <footer class="fixed bottom-0 w-full bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex justify-end space-x-8">
+                <a href="#" class="hover:text-gray-300">About</a>
+                <a href="#" class="hover:text-gray-300">Contact</a>
+                <a href="#" class="hover:text-gray-300">Help</a>
             </div>
-        </form>
+        </footer>
+    </div>
+
+    <!-- Mobile Content -->
+    <div class="md:hidden">
+        <nav class="fixed top-0 w-full bg-gray-800 text-white p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">Interpretor</div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-300">About</a>
+                    <a href="#" class="hover:text-gray-300">Contact</a>
+                    <a href="#" class="hover:text-gray-300">Help</a>
+                </div>
+            </div>
+        </nav>
+
     </div>
 
     <script>
