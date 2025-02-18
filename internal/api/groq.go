@@ -49,14 +49,14 @@ func (c *GroqClient) Translate(text, fromLang, toLang string, style TranslationS
 		Messages: []models.Message{
 			{
 				Role:    "system",
-				Content: "Translate exactly what is provided. Return only the translated text without explanations, corrections, or notes.",
+				Content: "You are a translator. Translate the input text exactly as provided, without adding any extra words, context, signatures, or explanations. Return only the direct translation.",
 			},
 			{
 				Role:    "user",
 				Content: fmt.Sprintf("Translate this text from %s to %s in %s style: %s", fromLang, toLang, style, text),
 			},
 		},
-		Model: "mixtral-8x7b-32768",
+		Model: "llama-3.3-70b-versatile",
 	}
 
 	jsonData, err := json.Marshal(request)
