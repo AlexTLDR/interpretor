@@ -85,111 +85,119 @@
                 <div class="container mx-auto flex justify-start space-x-8 pl-4">
                     <a href="#" class="hover:text-gray-300">About</a>
                     <a href="#" class="hover:text-gray-300">Contact</a>
-                    <a href="#" class="hover:text-gray-300">Help</a>
+                    <a href="#" class="hover:text-gray-300">GitHub</a>
                 </div>
             </div>
-        </footer>
-        
-        
-        
-        
-        
-        
-        
-             
+        </footer>           
     </div>
 
     <!-- Mobile Content -->
-    <div class="md:hidden">
-        <nav class="fixed top-0 w-full bg-gray-800 text-white p-4 z-50">
-            <div class="container mx-auto flex justify-between items-center">
-                <div class="text-xl font-bold">Interpretor</div>
-                <div class="flex space-x-4">
-                    <a href="#" class="hover:text-gray-300">About</a>
-                    <a href="#" class="hover:text-gray-300">Contact</a>
-                    <a href="#" class="hover:text-gray-300">Help</a>
-                </div>
+<div class="md:hidden">
+    <!-- Fixed Navigation Header -->
+    <nav class="fixed top-0 w-full bg-gray-800 text-white p-4 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold">Interpretor</div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-300">About</a>
+                <a href="#" class="hover:text-gray-300">Contact</a>
+                <a href="#" class="hover:text-gray-300">GitHub</a>
             </div>
-        </nav>
-
-        <div class="container mx-auto px-4 pt-20">
-            <form action="/translate" method="POST" class="space-y-6">
-                <div class="flex flex-wrap gap-4">
-                    <select name="fromLang" id="fromLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
-                        <option value="">Select source language</option>
-                        {{range .Languages}}
-                        <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
-                        {{end}}
-                    </select>
-                    
-                    <span class="self-center">to</span>
-                    
-                    <select name="toLang" id="toLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
-                        <option value="">Select target language</option>
-                        {{range .Languages}}
-                        <option value="{{.Code}}" {{if eq .Code "en"}}selected{{end}}>{{.Name}}</option>
-                        {{end}}
-                    </select>
-                </div>
-
-                <select name="style" id="style-mobile" required class="w-full bg-white text-gray-800 p-2 rounded">
-                    <option value="">Select translation style</option>
-                    <option value="formal">Formal</option>
-                    <option value="friendly" selected>Friendly</option>
-                    <option value="business">Business</option>
-                    <option value="technical">Technical</option>
-                </select>
-
-                <textarea 
-                    name="text" 
-                    id="inputText-mobile" 
-                    placeholder="Enter text to translate..." 
-                    required 
-                    class="w-full min-h-[200px] bg-white text-gray-800 p-4 rounded"
-                ></textarea>
-
-                <button 
-                    type="submit" 
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition duration-200"
-                >
-                    Translate
-                </button>
-
-                <div class="mt-6 mb-8">
-                    <h3 class="text-xl font-bold mb-2">Translation:</h3>
-                    <div id="outputText-mobile" class="bg-white text-gray-800 p-4 rounded min-h-[100px]"></div>
-                </div>
-            </form>
         </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 pt-20">
+        <form action="/translate" method="POST" class="space-y-6">
+            <!-- Language Selection -->
+            <div class="flex flex-wrap gap-4">
+                <select name="fromLang" id="fromLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
+                    <option value="">Select source language</option>
+                    {{range .Languages}}
+                    <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
+                    {{end}}
+                </select>
+                
+                <span class="self-center">to</span>
+                
+                <select name="toLang" id="toLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
+                    <option value="">Select target language</option>
+                    {{range .Languages}}
+                    <option value="{{.Code}}" {{if eq .Code "en"}}selected{{end}}>{{.Name}}</option>
+                    {{end}}
+                </select>
+            </div>
+
+            <!-- Style Selection -->
+            <select name="style" id="style-mobile" required class="w-full bg-white text-gray-800 p-2 rounded">
+                <option value="">Select translation style</option>
+                <option value="formal">Formal</option>
+                <option value="friendly" selected>Friendly</option>
+                <option value="business">Business</option>
+                <option value="technical">Technical</option>
+            </select>
+
+            <!-- Text Input -->
+            <textarea 
+                name="text" 
+                id="inputText-mobile" 
+                placeholder="Enter text to translate..." 
+                required 
+                class="w-full min-h-[200px] bg-white text-gray-800 p-4 rounded"
+            ></textarea>
+
+            <!-- Translation Button -->
+            <button 
+                type="submit" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition duration-200"
+            >
+                Translate
+            </button>
+
+            <!-- Translation Output with Gopher -->
+            <div class="mt-6 mb-8">
+                <h3 class="text-xl font-bold mb-2">Translation:</h3>
+                <div id="outputText-mobile" class="bg-white text-gray-800 p-4 rounded min-h-[100px]"></div>
+                <img src="/web/static/sun-glasses.png" alt="Cool Gopher" class="w-32 h-32 object-contain opacity-80 mx-auto mt-4">
+            </div>
+
+        </form>
     </div>
+</div>
 
-    <script>
-        document.querySelector('form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                fromLang: document.getElementById('fromLanguage').value,
-                toLang: document.getElementById('toLanguage').value,
-                style: document.getElementById('style').value,
-                text: document.getElementById('inputText').value
-            };
 
-            try {
-                const response = await fetch('/translate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
+        <script>
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Determine if this is mobile or desktop form
+                    const isMobile = this.querySelector('#fromLanguage-mobile') !== null;
+                    
+                    const formData = {
+                        fromLang: document.getElementById(isMobile ? 'fromLanguage-mobile' : 'fromLanguage').value,
+                        toLang: document.getElementById(isMobile ? 'toLanguage-mobile' : 'toLanguage').value,
+                        style: document.getElementById(isMobile ? 'style-mobile' : 'style').value,
+                        text: document.getElementById(isMobile ? 'inputText-mobile' : 'inputText').value
+                    };
+
+                    try {
+                        const response = await fetch('/translate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        });
+
+                        const data = await response.json();
+                        document.getElementById(isMobile ? 'outputText-mobile' : 'outputText').textContent = data.translation;
+                    } catch (error) {
+                        console.error('Translation error:', error);
+                        document.getElementById(isMobile ? 'outputText-mobile' : 'outputText').textContent = 'Translation failed. Please try again.';
+                    }
                 });
+            });
+        </script>
 
-                const data = await response.json();
-                document.getElementById('outputText').textContent = data.translation;
-            } catch (error) {
-                console.error('Translation error:', error);
-                document.getElementById('outputText').textContent = 'Translation failed. Please try again.';
-            }
-        });
-    </script>
 </body>
 </html>
