@@ -11,32 +11,74 @@
             animation: gradient-animation 18s ease infinite;
             color: #F6F4F0;
         }
-    
+
         @keyframes gradient-animation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        .gopher {
+            position: fixed;
+            bottom: -20px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background-image: url('https://go.dev/images/gophers/ladder.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: float 3s ease-in-out infinite;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .gopher {
+                right: -80px;
+                bottom: -20px;
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        #swapButton {
+            padding: 8px 12px;
+            background: #4A5568;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #swapButton:hover {
+            background: #2D3748;
+        }
     </style>
 </head>
 
 <body class="min-h-screen">
+    <div class="gopher"></div>
     <!-- Desktop Content -->
     <div class="hidden md:block">
         <div class="container mx-auto px-4 py-8">
             <h1 class="text-4xl font-bold text-center mb-8 text-gray-700">Interpretor</h1>
-            
             <form action="/translate" method="POST" class="max-w-2xl mx-auto space-y-6">
-                <div class="flex gap-4">
+                <div class="flex items-center gap-4">
                     <select name="fromLang" id="fromLanguage" required class="bg-white text-gray-800 p-2 rounded">
                         <option value="">Select source language</option>
                         {{range .Languages}}
                         <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
                         {{end}}
                     </select>
-                    
-                    <span class="self-center">to</span>
-                    
+                    <button type="button" id="swapButton">⇄</button>
                     <select name="toLang" id="toLanguage" required class="bg-white text-gray-800 p-2 rounded">
                         <option value="">Select target language</option>
                         {{range .Languages}}
@@ -109,7 +151,7 @@
             <div class="container mx-auto px-4 pt-20">
                 <form action="/translate" method="POST" class="space-y-6">
                     <!-- Language Selection -->
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-4 items-center">
                         <select name="fromLang" id="fromLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
                             <option value="">Select source language</option>
                             {{range .Languages}}
@@ -117,7 +159,7 @@
                             {{end}}
                         </select>
                         
-                        <span class="self-center">to</span>
+                        <button type="button" id="swapButton-mobile" class="p-2 bg-gray-700 text-white rounded hover:bg-gray-800">⇄</button>
                         
                         <select name="toLang" id="toLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
                             <option value="">Select target language</option>
@@ -167,6 +209,30 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('swapButton').addEventListener('click', function() {
+                    const fromLang = document.getElementById('fromLanguage');
+                    const toLang = document.getElementById('toLanguage');
+                    
+                    const tempValue = fromLang.value;
+                    const tempIndex = fromLang.selectedIndex;
+                    
+                    fromLang.value = toLang.value;
+                    fromLang.selectedIndex = toLang.selectedIndex;
+                    toLang.value = tempValue;
+                    toLang.selectedIndex = tempIndex;
+                });
+                document.getElementById('swapButton-mobile').addEventListener('click', function() {
+                    const fromLang = document.getElementById('fromLanguage-mobile');
+                    const toLang = document.getElementById('toLanguage-mobile');
+                    
+                    const tempValue = fromLang.value;
+                    const tempIndex = fromLang.selectedIndex;
+                    
+                    fromLang.value = toLang.value;
+                    fromLang.selectedIndex = toLang.selectedIndex;
+                    toLang.value = tempValue;
+                    toLang.selectedIndex = tempIndex;
+                });
                 // Form submission handler for both mobile and desktop
                 document.querySelectorAll('form').forEach(form => {
                     form.addEventListener('submit', async function(e) {
