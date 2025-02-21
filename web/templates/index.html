@@ -20,8 +20,8 @@
 
         .gopher {
             position: fixed;
-            bottom: -150px;
-            right: 20px;
+            bottom: -20px;
+            right: -50px;
             width: 200px;
             height: 200px;
             background-image: url('https://go.dev/images/gophers/ladder.svg');
@@ -30,6 +30,17 @@
             animation: float 3s ease-in-out infinite;
             z-index: 1000;
         }
+        
+        @media (max-width: 768px) {
+            .gopher {
+                right: -80px;
+                bottom: -20px;
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        
 
         @keyframes float {
             0% { transform: translateY(0); }
