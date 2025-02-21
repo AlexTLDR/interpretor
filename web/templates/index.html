@@ -151,7 +151,7 @@
             <div class="container mx-auto px-4 pt-20">
                 <form action="/translate" method="POST" class="space-y-6">
                     <!-- Language Selection -->
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-4 items-center">
                         <select name="fromLang" id="fromLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
                             <option value="">Select source language</option>
                             {{range .Languages}}
@@ -159,7 +159,7 @@
                             {{end}}
                         </select>
                         
-                        <span class="self-center">to</span>
+                        <button type="button" id="swapButton-mobile" class="p-2 bg-gray-700 text-white rounded hover:bg-gray-800">⇄</button>
                         
                         <select name="toLang" id="toLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
                             <option value="">Select target language</option>
@@ -212,6 +212,18 @@
                 document.getElementById('swapButton').addEventListener('click', function() {
                     const fromLang = document.getElementById('fromLanguage');
                     const toLang = document.getElementById('toLanguage');
+                    
+                    const tempValue = fromLang.value;
+                    const tempIndex = fromLang.selectedIndex;
+                    
+                    fromLang.value = toLang.value;
+                    fromLang.selectedIndex = toLang.selectedIndex;
+                    toLang.value = tempValue;
+                    toLang.selectedIndex = tempIndex;
+                });
+                document.getElementById('swapButton-mobile').addEventListener('click', function() {
+                    const fromLang = document.getElementById('fromLanguage-mobile');
+                    const toLang = document.getElementById('toLanguage-mobile');
                     
                     const tempValue = fromLang.value;
                     const tempIndex = fromLang.selectedIndex;
