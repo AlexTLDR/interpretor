@@ -40,8 +40,6 @@
             }
         }
         
-        
-
         @keyframes float {
             0% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -78,7 +76,7 @@
                         <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
                         {{end}}
                     </select>
-                    <button type="button" id="swapButton">⇄</button>
+                    <button type="button" id="swapButton" class="p-2 bg-gray-700 text-white rounded hover:bg-gray-800">⇄</button>
                     <select name="toLang" id="toLanguage" required class="bg-white text-gray-800 p-2 rounded">
                         <option value="">Select target language</option>
                         {{range .Languages}}
@@ -112,17 +110,19 @@
 
                 <div class="mt-6 mb-20">
                     <h3 class="text-xl font-bold mb-2 text-gray-700">Translation:</h3>
-                    <div id="outputText" class="bg-white text-gray-800 p-4 rounded min-h-[100px]"></div>
+                    <textarea 
+                        id="outputText" 
+                        readonly 
+                        class="w-full min-h-[200px] bg-white text-gray-800 p-4 rounded"
+                    ></textarea>
                 </div>
             </form>
         </div>
                         
         <footer class="fixed bottom-0 w-full">
-            <!-- Gopher positioned relative to footer but appearing above the line -->
             <div class="container mx-auto flex justify-start pl-0">
                 <img src="/web/static/gopher-body.png" alt="Cool Gopher" class="w-32 h-32 md:w-64 md:h-64 object-contain opacity-80">
             </div>
-            <!-- Footer navigation with background -->
             <div class="bg-gray-800 text-white p-4">
                 <div class="container mx-auto flex justify-start space-x-8 pl-4">
                     <a href="#" class="hover:text-gray-300">About</a>
@@ -134,191 +134,179 @@
     </div>
 
     <!-- Mobile Content -->
-        <div class="md:hidden">
-            <!-- Fixed Navigation Header -->
-            <nav class="fixed top-0 w-full bg-gray-800 text-white p-4 z-50">
-                <div class="container mx-auto flex justify-between items-center">
-                    <div class="text-xl font-bold">Interpretor</div>
-                    <div class="flex space-x-4">
-                        <a href="#" class="hover:text-gray-300">About</a>
-                        <a href="https://alextldr.com/" target="_blank" class="hover:text-gray-300">Contact</a>
-                        <a href="https://github.com/AlexTLDR/interpretor" target="_blank" class="hover:text-gray-300">GitHub</a>
-                    </div>
+    <div class="md:hidden">
+        <nav class="fixed top-0 w-full bg-gray-800 text-white p-4 z-50">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="text-xl font-bold">Interpretor</div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-300">About</a>
+                    <a href="https://alextldr.com/" target="_blank" class="hover:text-gray-300">Contact</a>
+                    <a href="https://github.com/AlexTLDR/interpretor" target="_blank" class="hover:text-gray-300">GitHub</a>
                 </div>
-            </nav>
+            </div>
+        </nav>
 
-            <!-- Main Content Container -->
-            <div class="container mx-auto px-4 pt-20">
-                <form action="/translate" method="POST" class="space-y-6">
-                    <!-- Language Selection -->
-                    <div class="flex flex-wrap gap-4 items-center">
-                        <select name="fromLang" id="fromLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
-                            <option value="">Select source language</option>
-                            {{range .Languages}}
-                            <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
-                            {{end}}
-                        </select>
-                        
-                        <button type="button" id="swapButton-mobile" class="p-2 bg-gray-700 text-white rounded hover:bg-gray-800">⇄</button>
-                        
-                        <select name="toLang" id="toLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
-                            <option value="">Select target language</option>
-                            {{range .Languages}}
-                            <option value="{{.Code}}" {{if eq .Code "en"}}selected{{end}}>{{.Name}}</option>
-                            {{end}}
-                        </select>
-                    </div>
-
-                    <!-- Style Selection -->
-                    <select name="style" id="style-mobile" required class="w-full bg-white text-gray-800 p-2 rounded">
-                        <option value="">Select translation style</option>
-                        <option value="formal">Formal</option>
-                        <option value="friendly" selected>Friendly</option>
-                        <option value="business">Business</option>
-                        <option value="technical">Technical</option>
+        <div class="container mx-auto px-4 pt-20">
+            <form action="/translate" method="POST" class="space-y-6">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <select name="fromLang" id="fromLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
+                        <option value="">Select source language</option>
+                        {{range .Languages}}
+                        <option value="{{.Code}}" {{if eq .Code "de"}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
                     </select>
+                    
+                    <button type="button" id="swapButton-mobile" class="p-2 bg-gray-700 text-white rounded hover:bg-gray-800">⇄</button>
+                    
+                    <select name="toLang" id="toLanguage-mobile" required class="bg-white text-gray-800 p-2 rounded">
+                        <option value="">Select target language</option>
+                        {{range .Languages}}
+                        <option value="{{.Code}}" {{if eq .Code "en"}}selected{{end}}>{{.Name}}</option>
+                        {{end}}
+                    </select>
+                </div>
 
-                    <!-- Text Input -->
+                <select name="style" id="style-mobile" required class="w-full bg-white text-gray-800 p-2 rounded">
+                    <option value="">Select translation style</option>
+                    <option value="formal">Formal</option>
+                    <option value="friendly" selected>Friendly</option>
+                    <option value="business">Business</option>
+                    <option value="technical">Technical</option>
+                </select>
+
+                <textarea 
+                    name="text" 
+                    id="inputText-mobile" 
+                    placeholder="Enter text to translate..." 
+                    required 
+                    class="w-full min-h-[200px] bg-white text-gray-800 p-4 rounded"
+                ></textarea>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded transition duration-200"
+                >
+                    Translate
+                </button>
+
+                <div class="mt-6 mb-8">
+                    <h3 class="text-xl font-bold mb-2 text-gray-700">Translation:</h3>
                     <textarea 
-                        name="text" 
-                        id="inputText-mobile" 
-                        placeholder="Enter text to translate..." 
-                        required 
+                        id="outputText-mobile" 
+                        readonly 
                         class="w-full min-h-[200px] bg-white text-gray-800 p-4 rounded"
                     ></textarea>
-
-                    <!-- Translation Button -->
-                    <button 
-                        type="submit" 
-                        class="w-full bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded transition duration-200"
-                    >
-                        Translate
-                    </button>
-
-                    <!-- Translation Output with Gopher -->
-                    <div class="mt-6 mb-8">
-                        <h3 class="text-xl font-bold mb-2 text-gray-700">Translation:</h3>
-                        <div id="outputText-mobile" class="bg-white text-gray-800 p-4 rounded min-h-[100px]"></div>
-                        <img src="/web/static/sun-glasses.png" alt="Cool Gopher" class="w-32 h-32 object-contain opacity-80 mx-auto mt-4">
-                    </div>
-
-                </form>
-            </div>
+                    <img src="/web/static/sun-glasses.png" alt="Cool Gopher" class="w-32 h-32 object-contain opacity-80 mx-auto mt-4">
+                </div>
+            </form>
         </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('swapButton').addEventListener('click', function() {
+                const fromLang = document.getElementById('fromLanguage');
+                const toLang = document.getElementById('toLanguage');
+                
+                const tempValue = fromLang.value;
+                const tempIndex = fromLang.selectedIndex;
+                
+                fromLang.value = toLang.value;
+                fromLang.selectedIndex = toLang.selectedIndex;
+                toLang.value = tempValue;
+                toLang.selectedIndex = tempIndex;
+            });
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                document.getElementById('swapButton').addEventListener('click', function() {
-                    const fromLang = document.getElementById('fromLanguage');
-                    const toLang = document.getElementById('toLanguage');
+            document.getElementById('swapButton-mobile').addEventListener('click', function() {
+                const fromLang = document.getElementById('fromLanguage-mobile');
+                const toLang = document.getElementById('toLanguage-mobile');
+                
+                const tempValue = fromLang.value;
+                const tempIndex = fromLang.selectedIndex;
+                
+                fromLang.value = toLang.value;
+                fromLang.selectedIndex = toLang.selectedIndex;
+                toLang.value = tempValue;
+                toLang.selectedIndex = tempIndex;
+            });
+
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
                     
-                    const tempValue = fromLang.value;
-                    const tempIndex = fromLang.selectedIndex;
+                    const isMobile = this.querySelector('#fromLanguage-mobile') !== null;
                     
-                    fromLang.value = toLang.value;
-                    fromLang.selectedIndex = toLang.selectedIndex;
-                    toLang.value = tempValue;
-                    toLang.selectedIndex = tempIndex;
-                });
-                document.getElementById('swapButton-mobile').addEventListener('click', function() {
-                    const fromLang = document.getElementById('fromLanguage-mobile');
-                    const toLang = document.getElementById('toLanguage-mobile');
-                    
-                    const tempValue = fromLang.value;
-                    const tempIndex = fromLang.selectedIndex;
-                    
-                    fromLang.value = toLang.value;
-                    fromLang.selectedIndex = toLang.selectedIndex;
-                    toLang.value = tempValue;
-                    toLang.selectedIndex = tempIndex;
-                });
-                // Form submission handler for both mobile and desktop
-                document.querySelectorAll('form').forEach(form => {
-                    form.addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        
-                        // Determine if this is mobile or desktop form
-                        const isMobile = this.querySelector('#fromLanguage-mobile') !== null;
-                        
-                        const formData = {
-                            fromLang: document.getElementById(isMobile ? 'fromLanguage-mobile' : 'fromLanguage').value,
-                            toLang: document.getElementById(isMobile ? 'toLanguage-mobile' : 'toLanguage').value,
-                            style: document.getElementById(isMobile ? 'style-mobile' : 'style').value,
-                            text: document.getElementById(isMobile ? 'inputText-mobile' : 'inputText').value
-                        };
-        
-                        try {
-                            const response = await fetch('/translate', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(formData)
-                            });
-        
-                            const data = await response.json();
-                            document.getElementById(isMobile ? 'outputText-mobile' : 'outputText').textContent = data.translation;
-                        } catch (error) {
-                            console.error('Translation error:', error);
-                            document.getElementById(isMobile ? 'outputText-mobile' : 'outputText').textContent = 'Translation failed. Please try again.';
-                        }
-                    });
-                });
-        
-                // Modal handlers
-                document.querySelectorAll('a[href="#"]').forEach(link => {
-                    if (link.textContent === 'About') {
-                        link.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            document.getElementById('aboutModal').classList.remove('hidden');
+                    const formData = {
+                        fromLang: document.getElementById(isMobile ? 'fromLanguage-mobile' : 'fromLanguage').value,
+                        toLang: document.getElementById(isMobile ? 'toLanguage-mobile' : 'toLanguage').value,
+                        style: document.getElementById(isMobile ? 'style-mobile' : 'style').value,
+                        text: document.getElementById(isMobile ? 'inputText-mobile' : 'inputText').value
+                    };
+    
+                    try {
+                        const response = await fetch('/translate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
                         });
-                    }
-                });
-        
-                // Close modal with button
-                document.getElementById('closeModal').addEventListener('click', () => {
-                    document.getElementById('aboutModal').classList.add('hidden');
-                });
-        
-                // Close modal when clicking outside
-                document.getElementById('aboutModal').addEventListener('click', (e) => {
-                    if (e.target.id === 'aboutModal') {
-                        document.getElementById('aboutModal').classList.add('hidden');
-                    }
-                });
-        
-                // Optional: Close modal with Escape key
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && !document.getElementById('aboutModal').classList.contains('hidden')) {
-                        document.getElementById('aboutModal').classList.add('hidden');
+    
+                        const data = await response.json();
+                        document.getElementById(isMobile ? 'outputText-mobile' : 'outputText').value = data.translation;
+                    } catch (error) {
+                        console.error('Translation error:', error);
+                        document.getElementById(isMobile ? 'outputText-mobile' : 'outputText').value = 'Translation failed. Please try again.';
                     }
                 });
             });
-        </script>
-        
-        
-        <!-- Modal HTML structure -->
-        <div id="aboutModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-            <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-                <div class="mt-3 text-center">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900">About Interpretor</h3>
-                    <div class="mt-2 px-7 py-3">
-                        <p class="text-sm text-gray-500">
-                            Interpreter is a simple integration with OpenAI, designed for translations. 
-                            It supports multiple languages and translation styles. 
-                            The roadmap includes adding document translation capabilities in the future.
-                            Of course, this is a demo app so please keep in mind that the groq API token isn't unlimited.
-                        </p>
-                    </div>
-                    <div class="items-center px-4 py-3">
-                        <button id="closeModal" class="px-4 py-2 bg-gray-700 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Close
-                        </button>
-                    </div>
+    
+            document.querySelectorAll('a[href="#"]').forEach(link => {
+                if (link.textContent === 'About') {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.getElementById('aboutModal').classList.remove('hidden');
+                    });
+                }
+            });
+    
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('aboutModal').classList.add('hidden');
+            });
+    
+            document.getElementById('aboutModal').addEventListener('click', (e) => {
+                if (e.target.id === 'aboutModal') {
+                    document.getElementById('aboutModal').classList.add('hidden');
+                }
+            });
+    
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !document.getElementById('aboutModal').classList.contains('hidden')) {
+                    document.getElementById('aboutModal').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+    
+    <div id="aboutModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">About Interpretor</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">
+                        Interpreter is a simple integration with OpenAI, designed for translations. 
+                        It supports multiple languages and translation styles. 
+                        The roadmap includes adding document translation capabilities in the future.
+                        Of course, this is a demo app so please keep in mind that the groq API token isn't unlimited.
+                    </p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="closeModal" class="px-4 py-2 bg-gray-700 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
-
-    </body>
+    </div>
+</body>
 </html>
