@@ -14,7 +14,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Warning: Could not load .env file, using environment variables")
 	}
 
 	apiKey := os.Getenv("GROQ_API_KEY")
